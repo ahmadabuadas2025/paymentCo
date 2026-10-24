@@ -6,3 +6,6 @@ dist
 *.xlsx
 .playwright-mcp
 *.tsbuildinfo
+
+# Team character images stay local (stock/clip-art, not licensed for a public repo)
+public/team/*.png

@@ -38,8 +38,7 @@ git-ignored; the test is skipped when the file is absent.
 | 7 | **Budget & roadmap** | Editable 9×3 budget with live $15.0M check, people-and-controls share, tech-heavy warning, stacked bars, animated gated funding timeline. |
 | 8 | **Assumptions** | Every input with value, default, source and changed status; a summary of everything that differs from the base case. |
 
-**Header actions:** Copy summary (5 lines for the memo), Export JSON, Export CSV, Import JSON, dark/light
-mode, Present. Every chart card has a **PNG** button.
+**Header actions:** Copy summary (5 lines for the memo), Export JSON, Export CSV, Import JSON, Present. Every chart card has a **PNG** button.
 
 ## The financial model (`src/model/`)
 
@@ -131,9 +130,17 @@ so the simulated median sits below the base case.
 Defaults (300 disputes/day, 85% threshold, 12 analysts, 10% override tendency) go from about 5.1 days to 1.9 days
 and from 18% to 6.6% rework, passing all three gates.
 
+## Team greeter
+
+Every time you switch the main tab, the next Group 1 member (Ahmad → Nicholas → Bolotbek → Huei-En) pops up in the
+bottom-right corner for 5 seconds saying "Hi, I am …" (click to dismiss; hidden in presentation mode).
+The character images go in `public/team/` (`ahmad.png`, `nicholas.png`, `bolotbek.png`, `huei-en.png`).
+They are **git-ignored** because they are stock / clip-art without a licence for a public repo; without them the
+greeter shows each member's initials instead.
+
 ## Design notes
 
-- Brand: deep green `#0F3B2E`, cream `#F6F5EF`, gold `#C9A227`; red for stop states. Dark mode is supported.
+- Brand: deep green `#0F3B2E`, cream `#F6F5EF`, gold `#C9A227`; red for stop states. The app is dark-mode only.
 - Status always pairs colour with an icon and a word (✓ / ✕ / ▲ / ▼).
 - Chart hues were checked for colour-blind separation and contrast in both themes.
 - Animations run for 300–600 ms and respect `prefers-reduced-motion`.

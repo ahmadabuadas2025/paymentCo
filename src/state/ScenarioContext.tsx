@@ -1,4 +1,4 @@
-// App state: the current scenario (a reducer), saved scenarios, theme and presentation mode.
+// App state: the current scenario (a reducer), saved scenarios and presentation mode.
 // Everything persists to localStorage; reads and writes are wrapped so private windows still work.
 import { createContext, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react';
 import { defaultBudget } from '../model/budget';
@@ -109,8 +109,6 @@ interface Ctx {
   saved: ScenarioState[];
   saveScenario: (name: string) => void;
   deleteSaved: (index: number) => void;
-  dark: boolean;
-  setDark: (v: boolean) => void;
   presenting: boolean;
   setPresenting: (v: boolean) => void;
 }
@@ -120,23 +118,12 @@ const ScenarioCtx = createContext<Ctx | null>(null);
 export function ScenarioProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, () => sanitize(readStorage('pc-current', null)));
   const [saved, setSaved] = useState<ScenarioState[]>(() => readStorage<unknown[]>('pc-scenarios', []).map(sanitize).slice(0, MAX_SAVED));
-  const [dark, setDarkState] = useState(() => document.documentElement.classList.contains('dark'));
   const [presenting, setPresenting] = useState(false);
 
   const result = useMemo(() => computePortfolio(state), [state]);
 
   useEffect(() => writeStorage('pc-current', state), [state]);
   useEffect(() => writeStorage('pc-scenarios', saved), [saved]);
-
-  const setDark = (v: boolean) => {
-    document.documentElement.classList.toggle('dark', v);
-    try {
-      localStorage.setItem('pc-theme', v ? 'dark' : 'light');
-    } catch {
-      /* ignore */
-    }
-    setDarkState(v);
-  };
 
   const saveScenario = (name: string) => {
     const snapshot = { ...state, name };
@@ -150,7 +137,7 @@ export function ScenarioProvider({ children }: { children: ReactNode }) {
   const deleteSaved = (index: number) => setSaved((list) => list.filter((_, i) => i !== index));
 
   return (
-    <ScenarioCtx.Provider value={{ state, result, dispatch, saved, saveScenario, deleteSaved, dark, setDark, presenting, setPresenting }}>
+    <ScenarioCtx.Provider value={{ state, result, dispatch, saved, saveScenario, deleteSaved, presenting, setPresenting }}>
       {children}
     </ScenarioCtx.Provider>
   );

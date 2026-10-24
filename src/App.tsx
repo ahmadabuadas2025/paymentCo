@@ -11,6 +11,7 @@ import ApproachesScreen from './screens/Approaches';
 import PilotSimulator from './screens/PilotSimulator';
 import BudgetRoadmap from './screens/BudgetRoadmap';
 import Assumptions from './screens/Assumptions';
+import TeamGreeter from './components/TeamGreeter';
 
 const TABS = [
   { id: 'board', label: 'Board view', el: BoardView },
@@ -31,7 +32,7 @@ function initialTab(): TabId {
 }
 
 export default function App() {
-  const { state, result, dispatch, dark, setDark, presenting, setPresenting } = useScenario();
+  const { state, result, dispatch, presenting, setPresenting } = useScenario();
   const [tab, setTab] = useState<TabId>(initialTab);
   const [toast, setToast] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -96,13 +97,6 @@ export default function App() {
                 <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => exportCsv(state, result)}>Export CSV</button>
                 <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => fileRef.current?.click()}>Import</button>
                 <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={(e) => e.target.files?.[0] && importJson(e.target.files[0])} />
-                <button
-                  className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20"
-                  onClick={() => setDark(!dark)}
-                  aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  {dark ? '☀ Light' : '☾ Dark'}
-                </button>
                 <button className="rounded-lg bg-gold px-3 py-1.5 font-semibold text-brand hover:brightness-105" onClick={() => setPresenting(true)}>
                   ▶ Present
                 </button>
@@ -148,6 +142,8 @@ export default function App() {
             USF MS FinTech · AI Finance · PaymentCo 2030 case (fictional). Board presentation Nov 3, 2026. Figures are planning estimates, not forecasts.
           </footer>
         )}
+
+        {!presenting && <TeamGreeter trigger={tab} />}
 
         <AnimatePresence>
           {toast && (
