@@ -38,7 +38,7 @@ git-ignored; the test is skipped when the file is absent.
 | 7 | **Budget & roadmap** | Editable 9×3 budget with live $15.0M check, people-and-controls share, tech-heavy warning, stacked bars, animated gated funding timeline. |
 | 8 | **Assumptions** | Every input with value, default, source and changed status; a summary of everything that differs from the base case. |
 
-**Header actions:** Copy summary (5 lines for the memo), Export JSON, Export CSV, Import JSON, Present. Every chart card has a **PNG** button.
+Every chart card has a **PNG** button. Presentation mode is started from the Board view.
 
 ## The financial model (`src/model/`)
 
@@ -132,11 +132,19 @@ and from 18% to 6.6% rework, passing all three gates.
 
 ## Team greeter
 
-Every time you switch the main tab, the next Group 1 member (Ahmad → Nicholas → Bolotbek → Huei-En) pops up in the
-bottom-right corner for 5 seconds saying "Hi, I am …" (click to dismiss; hidden in presentation mode).
-The character images go in `public/team/` (`ahmad.png`, `nicholas.png`, `bolotbek.png`, `huei-en.png`).
-They are **git-ignored** because they are stock / clip-art without a licence for a public repo; without them the
-greeter shows each member's initials instead.
+Each main tab is introduced by a Group 1 member, who appears in the bottom-right corner for 5 seconds saying
+"Hi, I am …" (click to dismiss; hidden in presentation mode):
+
+| Tabs | Member |
+|---|---|
+| 1, 6 | Ahmad |
+| 2, 5 | Bolotbek |
+| 3, 8 | Huei-En |
+| 4, 7 | Nicholas |
+
+The characters are transparent PNGs in `src/assets/team/` (`ahmad.png`, `bolotbek.png`, `huei-en.png`,
+`nicholas.png`). They are **git-ignored** because they are stock / clip-art without a licence for a public repo;
+without them the greeter shows the message on its own.
 
 ## Design notes
 

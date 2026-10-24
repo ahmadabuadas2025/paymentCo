@@ -1,8 +1,7 @@
 // App shell: header, tab navigation and the active screen.
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import { buildSummary, exportCsv, exportJson } from './lib/export';
-import { sanitize, useScenario } from './state/ScenarioContext';
+import { useEffect, useState } from 'react';
+import { useScenario } from './state/ScenarioContext';
 import BoardView from './screens/BoardView';
 import UseCaseLab from './screens/UseCaseLab';
 import PortfolioBuilder from './screens/PortfolioBuilder';
@@ -32,10 +31,8 @@ function initialTab(): TabId {
 }
 
 export default function App() {
-  const { state, result, dispatch, presenting, setPresenting } = useScenario();
+  const { state, presenting, setPresenting } = useScenario();
   const [tab, setTab] = useState<TabId>(initialTab);
-  const [toast, setToast] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     history.replaceState(null, '', `#${tab}`);
@@ -46,30 +43,6 @@ export default function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [setPresenting]);
-
-  const flash = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 2200);
-  };
-
-  const copySummary = async () => {
-    const text = buildSummary(state, result);
-    try {
-      await navigator.clipboard.writeText(text);
-      flash('Summary copied to clipboard');
-    } catch {
-      window.prompt('Copy the summary:', text);
-    }
-  };
-
-  const importJson = async (file: File) => {
-    try {
-      dispatch({ type: 'load', state: sanitize(JSON.parse(await file.text())) });
-      flash(`Loaded "${file.name}"`);
-    } catch {
-      flash('That file is not a valid scenario JSON');
-    }
-  };
 
   const Active = presenting ? BoardView : TABS.find((t) => t.id === tab)!.el;
 
@@ -90,16 +63,6 @@ export default function App() {
                     Group 1 · “Protect the Network First” · Scenario: <span className="font-semibold text-gold">{state.name}</span>
                   </div>
                 </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 text-sm">
-                <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={copySummary}>Copy summary</button>
-                <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => exportJson(state)}>Export JSON</button>
-                <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => exportCsv(state, result)}>Export CSV</button>
-                <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => fileRef.current?.click()}>Import</button>
-                <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={(e) => e.target.files?.[0] && importJson(e.target.files[0])} />
-                <button className="rounded-lg bg-gold px-3 py-1.5 font-semibold text-brand hover:brightness-105" onClick={() => setPresenting(true)}>
-                  ▶ Present
-                </button>
               </div>
             </div>
             <nav className="mx-auto max-w-[1440px] overflow-x-auto px-2" aria-label="Screens">
@@ -143,21 +106,8 @@ export default function App() {
           </footer>
         )}
 
-        {!presenting && <TeamGreeter trigger={tab} />}
+        {!presenting && <TeamGreeter tab={TABS.findIndex((t) => t.id === tab)} />}
 
-        <AnimatePresence>
-          {toast && (
-            <motion.div
-              role="status"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-ink px-4 py-2 text-sm text-white shadow-lg dark:bg-[#E8ECE9] dark:text-night"
-            >
-              {toast}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </MotionConfig>
   );
