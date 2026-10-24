@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Chart tokens. Categorical hues were validated for colour-blind separation and contrast
+   (light against cream cards, dark against the night surface). Colour follows the entity:
+   c1 = Fraud, c2 = Disputes, c3 = Fin Crime, c4 = the deferred use case being compared. */
+:root {
+  --c1: #0e8a5f;
+  --c2: #a87f00;
+  --c3: #2f6fbf;
+  --c4: #c2417a;
+  --good: #0e7a50;
+  --bad: #b42318;
+  --muted-mark: #9aa39e;
+  --brand: #0f3b2e;
+  --gold: #c9a227;
+  --grid: #e3e1d6;
+  --axis: #6b746f;
+  --ink: #1b1f1d;
+  --surface: #ffffff;
+}
+.dark {
+  --c1: #2ba675;
+  --c2: #b88a12;
+  --c3: #4d86d6;
+  --c4: #d9558f;
+  --good: #4cc38a;
+  --bad: #f97066;
+  --muted-mark: #66716b;
+  --brand: #8fd1b4;
+  --gold: #d9b440;
+  --grid: #2a3631;
+  --axis: #9aa39e;
+  --ink: #e8ece9;
+  --surface: #16201c;
+}
+
+@layer base {
+  body {
+    @apply bg-cream text-ink antialiased dark:bg-night dark:text-[#E8ECE9];
+    font-feature-settings: 'tnum' 1;
+  }
+  h1, h2, h3 {
+    @apply font-serif;
+  }
+  input[type='range'] {
+    accent-color: var(--brand);
+  }
+  .dark input[type='range'] {
+    accent-color: #4cc38a;
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-black/5 bg-white p-4 shadow-sm dark:border-night-line dark:bg-night-card;
+  }
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-black/10 bg-white px-3 py-1.5 text-sm font-medium text-ink transition hover:bg-cream-200 disabled:opacity-40 dark:border-night-line dark:bg-night-card dark:text-[#E8ECE9] dark:hover:bg-night-line;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white transition hover:bg-brand-600 dark:bg-[#2BA675] dark:text-night dark:hover:bg-[#4CC38A];
+  }
+  .label {
+    @apply text-xs font-semibold uppercase tracking-wide text-ink-muted dark:text-[#9AA39E];
+  }
+  .muted {
+    @apply text-ink-soft dark:text-[#AEB7B2];
+  }
+  .num-input {
+    @apply w-full rounded-md border border-black/10 bg-white px-2 py-1 text-right text-sm tabular-nums dark:border-night-line dark:bg-night;
+  }
+}
+
+/* Recharts tooltip in both themes */
+.recharts-default-tooltip {
+  background: var(--surface) !important;
+  border-color: var(--grid) !important;
+  border-radius: 8px;
+  color: var(--ink);
+}
+.recharts-text {
+  fill: var(--axis);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

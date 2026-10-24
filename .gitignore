@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.vite
+# Class workbook stays local (used only for the optional cross-check test)
+*.xlsx
+.playwright-mcp
+*.tsbuildinfo
