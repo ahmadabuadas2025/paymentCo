@@ -48,21 +48,21 @@ function Greeting({ name, file, onClose }: { name: string; file: string; onClose
       type="button"
       onClick={onClose}
       aria-label={`Hi, I am ${name}. Click to dismiss.`}
-      className="pointer-events-auto flex items-end gap-1 text-left"
+      className="pointer-events-auto flex flex-col items-center gap-2"
       initial={{ opacity: 0, x: 80, y: 20, scale: 0.85 }}
       animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       exit={{ opacity: 0, x: 80, scale: 0.85 }}
       transition={{ type: 'spring', stiffness: 260, damping: 22 }}
     >
-      {/* speech bubble */}
+      {/* speech bubble on top, tail pointing down at the character */}
       <motion.div
-        className={`relative rounded-2xl border-2 border-gold bg-night-card px-4 py-2 font-serif text-lg font-bold text-[#E8ECE9] shadow-xl ${src ? 'mb-28' : 'mb-2'}`}
+        className="relative whitespace-nowrap rounded-2xl border-2 border-gold bg-night-card px-4 py-2 font-serif text-lg font-bold text-[#E8ECE9] shadow-xl"
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.25, duration: 0.3 }}
       >
         Hi, I am {name}
-        {src && <span className="absolute -right-2 bottom-3 h-3 w-3 rotate-45 border-r-2 border-t-2 border-gold bg-night-card" aria-hidden="true" />}
+        {src && <span className="absolute -bottom-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b-2 border-r-2 border-gold bg-night-card" aria-hidden="true" />}
       </motion.div>
 
       {/* just the character: transparent artwork, no card behind it */}
@@ -70,7 +70,7 @@ function Greeting({ name, file, onClose }: { name: string; file: string; onClose
         <motion.img
           src={src}
           alt=""
-          className="h-48 w-auto drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]"
+          className="h-56 w-auto max-w-[220px] object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
         />
