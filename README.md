@@ -143,8 +143,8 @@ Each main tab is introduced by a Group 1 member, who appears in the bottom-right
 | 4, 7 | Nicholas |
 
 The characters are transparent PNGs in `src/assets/team/` (`ahmad.png`, `bolotbek.png`, `huei-en.png`,
-`nicholas.png`). They are **git-ignored** because they are stock / clip-art without a licence for a public repo;
-without them the greeter shows the message on its own.
+`nicholas.png`). They are fan-art / anime characters owned by their studios, included for this class project only;
+if an image is removed the greeter shows the message on its own.
 
 ## Design notes
 
